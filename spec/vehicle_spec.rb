@@ -61,5 +61,15 @@ RSpec.describe Vehicle do
       expect(@facility_1.registered_vehicles).to eq([@cruz, @camaro])
       expect(@facility_1.collected_fees).to eq(125)
     end
+
+    it 'can register any type of vehicle' do 
+      @facility_1.register_vehicle(@cruz)
+      @facility_1.register_vehicle(@camaro)
+      @facility_1.register_vehicle(@bolt)
+      expect(@bolt.registration_date).to eq(Date.today)
+      expect(@bolt.plate_type).to eq(:ev)
+      expect(@facility_1.registered_vehicles).to eq([@cruz, @camaro, @bolt])
+      expect(@facility_1.collected_fees).to eq(325)
+    end
   end
 end
