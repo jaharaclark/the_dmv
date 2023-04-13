@@ -9,6 +9,7 @@ RSpec.describe Vehicle do
     @camaro = Vehicle.new({vin: '1a2b3c4d5e6f', year: 1969, make: 'Chevrolet', model: 'Camaro', engine: :ice} )
     @facility_1 = Facility.new({name: 'Albany DMV Office', address: '2242 Santiam Hwy SE Albany OR 97321', phone: '541-967-2014' })
     @facility_2 = Facility.new({name: 'Ashland DMV Office', address: '600 Tolman Creek Rd Ashland OR 97520', phone: '541-776-6092' })
+    @facility_1.add_service('Vehicle Registration')
   end
   describe '#initialize' do
     it 'can initialize' do
@@ -40,7 +41,6 @@ RSpec.describe Vehicle do
 
   describe '#services_provided' do
     it 'can register a vehicle' do
-      @facility_1.add_service('Vehicle Registration')
       expect(@facility_1.services).to eq(['Vehicle Registration'])
       expect(@cruz.registration_date).to eq(nil)
       expect(@facility_1.registered_vehicles).to eq([])
@@ -51,9 +51,15 @@ RSpec.describe Vehicle do
       expect(@cruz.plate_type).to eq(:regular)
       expect(@facility_1.registered_vehicles).to eq([@cruz])
       expect(@facility_1.collected_fees).to eq(100)
-      
-      
+    end
 
+    it 'can register more than 1 vehicle' do
+      @facility_1.register_vehicle(@cruz)
+      @facility_1.register_vehicle(@camaro)
+      expect(@camaro.registration_date).to eq(Date.today)
+      expect(@camaro.plate_type).to eq(:antique)
+      expect(@facility_1.registered_vehicles).to eq([@cruz, @camaro])
+      expect(@facility_1.collected_fees).to eq(125)
     end
   end
 end
