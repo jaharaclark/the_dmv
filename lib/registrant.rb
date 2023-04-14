@@ -18,10 +18,4 @@ class Registrant
   def earn_permit
     @permit = true
   end
-
-  def administer_test
-    if @age >= 16 && @permit == true
-      @license_data[:written] = true
-    end
-  end
 end
