@@ -96,5 +96,18 @@ RSpec.describe Facility do
       @registrant_1.administer_test
       expect(@registrant_1.license_data[:written]).to eq(true)
     end
+
+    it 'only administers tests to registrants with permits who are 16' do
+      @facility_1.add_service('New Drivers License')
+      expect(@registrant_1.license_data[:written]).to eq(false)
+      expect(@registrant_2.license_data[:written]).to eq(false)
+      expect(@registrant_3.license_data[:written]).to eq(false)
+      @registrant_1.administer_test
+      @registrant_2.administer_test
+      @registrant_3.administer_test
+      expect(@registrant_1.license_data[:written]).to eq(true)
+      expect(@registrant_2.license_data[:written]).to eq(false)
+      expect(@registrant_3.license_data[:written]).to eq(false)
+    end
   end
 end
