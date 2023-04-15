@@ -111,6 +111,11 @@ RSpec.describe Facility do
       expect(@registrant_2.license_data).to eq({:written=>false, :license=>false, :renewed=>false})
       @facility_1.administer_written_test(@registrant_2)
       expect(@registrant_2.license_data).to eq({:written=>true, :license=>false, :renewed=>false})
+      expect(@registrant_3.age).to eq(15)
+      expect(@registrant_3.permit).to eq(false)
+      expect(@facility_1.administer_written_test(@registrant_3)).to eq(nil)
+      expect(@registrant_3.earn_permit).to eq(nil)
+      expect(@registrant_3.license_data).to eq({:written=>false, :license=>false, :renewed=>false})
     end
   end
 end
